@@ -1,0 +1,28 @@
+name: "Incidente"
+description: Interrupción o degradación del servicio en producción.
+title: "[INC] "
+labels: ["incidente"]
+body:
+  - type: dropdown
+    id: prioridad
+    attributes:
+      label: Prioridad
+      options:
+        - "P1 · Crítica (plataforma caída o brecha de seguridad) · respuesta 30 min"
+        - "P2 · Alta (login o aula fallan para un grupo) · respuesta 1 h"
+        - "P3 · Media (error en un módulo administrativo) · respuesta 4 h"
+        - "P4 · Baja (consulta o mejora visual) · respuesta 1 día hábil"
+    validations:
+      required: true
+  - type: textarea
+    id: sintomas
+    attributes:
+      label: Síntomas y evidencia
+      description: Qué se observa, desde cuándo, capturas o mensajes de error.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Versión en producción
+      description: Respuesta de /api/public/version

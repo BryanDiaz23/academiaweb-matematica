@@ -1,0 +1,20 @@
+# Dependencias y compilados
+node_modules/
+dist/
+target/
+
+# Resultados de las pruebas E2E (Playwright)
+playwright-report/
+test-results/
+
+# Variables de entorno y secretos (nunca subir al repositorio)
+.env
+.env.*
+!.env.example
+
+# IDE / sistema
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

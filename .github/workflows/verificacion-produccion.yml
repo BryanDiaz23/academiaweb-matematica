@@ -1,0 +1,39 @@
+name: Verificación de producción
+
+# Validación posterior al despliegue y monitoreo de disponibilidad (SLA ≥ 99 %).
+# Configura la variable del repositorio PROD_API_URL (Settings > Secrets and variables > Actions > Variables),
+# por ejemplo https://mse-backend.onrender.com
+on:
+  schedule:
+    - cron: '*/30 11-23 * * *'      # cada 30 min de 06:00 a 18:59 (hora de Lima, UTC-5)
+  workflow_dispatch:
+    inputs:
+      version_esperada:
+        description: Versión que debe estar desplegada (p. ej. 2.0.0). Vacío = no se compara.
+        required: false
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verificar:
+    name: Health check de la API en producción
+    runs-on: ubuntu-latest
+    if: ${{ vars.PROD_API_URL != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Health check, versión y tiempo de respuesta
+        env:
+          API_URL: ${{ vars.PROD_API_URL }}
+          VERSION_ESPERADA: ${{ github.event.inputs.version_esperada || (github.event_name == 'release' && github.event.release.tag_name) || '' }}
+        run: bash scripts/health-check.sh "$API_URL" "${VERSION_ESPERADA#v}"
+      - name: Abrir un incidente si la verificación falla
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "[INC] Falla la verificación de producción ($(date -u +%F' '%H:%M) UTC)" \
+            --label incidente --body "El workflow *Verificación de producción* falló. Ejecución: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. Evaluar el plan de reversión (docs/10-gestion-del-cambio.md §6)." || true

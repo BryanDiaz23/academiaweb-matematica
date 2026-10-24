@@ -1,0 +1,6 @@
+# Plantillas del proceso de control de cambios (ITIL 4 / ISO/IEC 20000-1). Ver docs/10-gestion-del-cambio.md
+blank_issues_enabled: false
+contact_links:
+  - name: Consulta de un alumno o apoderado
+    url: https://mse-frontend.onrender.com/aula?seccion=ayuda
+    about: Las solicitudes de los usuarios se registran en la Mesa de ayuda de la plataforma, no aquí.

@@ -1,0 +1,22 @@
+name: "Solicitud de servicio interna"
+description: Pedido del equipo o de la academia que no es un cambio (accesos, reportes, información).
+title: "[SR] "
+labels: ["solicitud-servicio"]
+body:
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo de solicitud
+      options:
+        - Acceso al repositorio, Render o la base de datos
+        - Reporte o exportación de datos
+        - Información sobre el servicio
+        - Otro
+    validations:
+      required: true
+  - type: textarea
+    id: detalle
+    attributes:
+      label: Detalle
+    validations:
+      required: true

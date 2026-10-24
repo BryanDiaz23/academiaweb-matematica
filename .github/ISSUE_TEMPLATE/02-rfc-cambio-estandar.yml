@@ -1,0 +1,33 @@
+name: "RFC · Cambio estándar (preaprobado)"
+description: Cambio de bajo riesgo y procedimiento conocido, preaprobado. Solo se registra.
+title: "[RFC-STD] "
+labels: ["rfc", "cambio-estandar", "estado:aprobado"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Los **cambios estándar** están preaprobados por el CAB (ver catálogo en docs/10-gestion-del-cambio.md §3).
+        Basta con registrarlos y que el pipeline de CI pase en verde.
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo de cambio estándar
+      options:
+        - Actualización menor o de parche de dependencias (Dependabot, npm, Maven)
+        - Alta, edición u ocultamiento de una clase grabada desde el panel
+        - Ajuste de textos, precios o horarios en datos de catálogo
+        - Corrección de documentación (sin cambio de alcance)
+        - Rotación programada de secretos (JWT_SECRET, credenciales)
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción
+    validations:
+      required: true
+  - type: input
+    id: pr
+    attributes:
+      label: Pull request asociado
+      placeholder: "#123"

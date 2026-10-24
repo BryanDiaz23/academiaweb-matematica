@@ -1,0 +1,6 @@
+# Los paneles privados no deben indexarse en buscadores.
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /aula
+Disallow: /cambiar-password

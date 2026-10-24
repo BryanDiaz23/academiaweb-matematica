@@ -1,0 +1,72 @@
+# Blueprint de Render (Infraestructura como código).
+# Render > New > Blueprint > selecciona este repositorio. Crea la BD, el back-end y el front-end.
+databases:
+  - name: mse-db
+    databaseName: mse
+    user: mse
+    plan: free
+
+services:
+  # ---------------- Back-end: API Spring Boot en contenedor Docker ----------------
+  - type: web
+    name: mse-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/public/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: JWT_SECRET
+        generateValue: true          # Render genera una clave aleatoria de 256 bits
+      - key: JWT_EXPIRATION_MINUTES
+        value: "60"
+      - key: DB_HOST
+        fromDatabase:
+          name: mse-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: mse-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: mse-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: mse-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: mse-db
+          property: password
+      - key: CORS_ALLOWED_ORIGINS     # URL del front-end, p. ej. https://mse-frontend.onrender.com
+        sync: false
+
+  # ---------------- Front-end: React (Vite) como sitio estático ----------------
+  - type: web
+    name: mse-frontend
+    runtime: static
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: ./frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+    envVars:
+      - key: VITE_API_URL             # URL del back-end, p. ej. https://mse-backend.onrender.com
+        sync: false
+      - key: VITE_WHATSAPP_NUMBER
+        sync: false

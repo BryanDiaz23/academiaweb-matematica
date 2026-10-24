@@ -1,0 +1,46 @@
+name: "RFC · Cambio de emergencia"
+description: Corrección urgente de un incidente P1 o vulnerabilidad crítica en producción.
+title: "[RFC-EMG] "
+labels: ["rfc", "cambio-emergencia", "prioridad:P1"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Cambio de emergencia**: lo autoriza el Gerente de TI / DevOps Lead (CAB de emergencia, ECAB) sin esperar la
+        reunión del CAB. Se despliega por una rama `hotfix/*` y se revisa formalmente después (revisión posimplementación).
+  - type: input
+    id: incidente
+    attributes:
+      label: Incidente o alerta que lo origina
+      placeholder: "#45 · API devuelve 500 en /api/auth/login"
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Corrección propuesta
+    validations:
+      required: true
+  - type: textarea
+    id: impacto
+    attributes:
+      label: Impacto si no se aplica
+    validations:
+      required: true
+  - type: textarea
+    id: backout
+    attributes:
+      label: Plan de reversión
+      value: |
+        1. Activar si el health check falla o aparecen errores 5xx después del despliegue.
+        2. Ejecutar scripts/rollback.sh <etiqueta estable> o "Rollback" del despliegue anterior en Render.
+        3. Verificar con scripts/health-check.sh.
+    validations:
+      required: true
+  - type: input
+    id: aprobador
+    attributes:
+      label: Autorizado por (ECAB)
+      placeholder: "Bryan Díaz · DevOps Lead"
+    validations:
+      required: true

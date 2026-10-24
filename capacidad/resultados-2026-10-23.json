@@ -1,0 +1,264 @@
+{
+  "url": "http://localhost:8080", "entorno": "Contenedor local, API limitada a 1 vCPU (taskset) y -Xmx384m, perfil dev (H2), rate limit desactivado", "fecha": "2026-10-23",
+  "rutas": [
+    "/api/public/health",
+    "/api/public/niveles",
+    "/api/public/horarios",
+    "/api/public/clases-recientes",
+    "/api/public/estadisticas",
+    "/api/alumno/matriculas",
+    "/api/alumno/clases"
+  ],
+  "escalones": [
+    {
+      "usuarios": 1,
+      "duracion_s": 15.0,
+      "peticiones": 3814,
+      "rps": 254.2,
+      "p50_ms": 2.5,
+      "p95_ms": 10.9,
+      "p99_ms": 17.5,
+      "max_ms": 162.4,
+      "promedio_ms": 3.9,
+      "errores": 0,
+      "errores_pct": 0.0,
+      "por_ruta": {
+        "/api/public/health": {
+          "peticiones": 545,
+          "p50_ms": 1.5,
+          "p95_ms": 6.8
+        },
+        "/api/public/niveles": {
+          "peticiones": 545,
+          "p50_ms": 1.8,
+          "p95_ms": 8.5
+        },
+        "/api/public/horarios": {
+          "peticiones": 545,
+          "p50_ms": 1.5,
+          "p95_ms": 7.6
+        },
+        "/api/public/clases-recientes": {
+          "peticiones": 545,
+          "p50_ms": 1.7,
+          "p95_ms": 8.4
+        },
+        "/api/public/estadisticas": {
+          "peticiones": 545,
+          "p50_ms": 1.9,
+          "p95_ms": 9.6
+        },
+        "/api/alumno/matriculas": {
+          "peticiones": 545,
+          "p50_ms": 3.5,
+          "p95_ms": 14.1
+        },
+        "/api/alumno/clases": {
+          "peticiones": 544,
+          "p50_ms": 6.1,
+          "p95_ms": 16.6
+        }
+      }
+    },
+    {
+      "usuarios": 5,
+      "duracion_s": 15.0,
+      "peticiones": 10616,
+      "rps": 707.2,
+      "p50_ms": 5.2,
+      "p95_ms": 19.6,
+      "p99_ms": 27.0,
+      "max_ms": 50.2,
+      "promedio_ms": 7.0,
+      "errores": 0,
+      "errores_pct": 0.0,
+      "por_ruta": {
+        "/api/public/health": {
+          "peticiones": 1515,
+          "p50_ms": 4.5,
+          "p95_ms": 11.4
+        },
+        "/api/public/niveles": {
+          "peticiones": 1516,
+          "p50_ms": 4.8,
+          "p95_ms": 17.8
+        },
+        "/api/public/horarios": {
+          "peticiones": 1516,
+          "p50_ms": 4.5,
+          "p95_ms": 14.8
+        },
+        "/api/public/clases-recientes": {
+          "peticiones": 1517,
+          "p50_ms": 4.8,
+          "p95_ms": 16.8
+        },
+        "/api/public/estadisticas": {
+          "peticiones": 1518,
+          "p50_ms": 5.1,
+          "p95_ms": 18.4
+        },
+        "/api/alumno/matriculas": {
+          "peticiones": 1517,
+          "p50_ms": 6.2,
+          "p95_ms": 22.6
+        },
+        "/api/alumno/clases": {
+          "peticiones": 1517,
+          "p50_ms": 7.1,
+          "p95_ms": 23.7
+        }
+      }
+    },
+    {
+      "usuarios": 10,
+      "duracion_s": 15.0,
+      "peticiones": 10288,
+      "rps": 685.1,
+      "p50_ms": 10.0,
+      "p95_ms": 39.4,
+      "p99_ms": 51.4,
+      "max_ms": 105.0,
+      "promedio_ms": 14.6,
+      "errores": 0,
+      "errores_pct": 0.0,
+      "por_ruta": {
+        "/api/public/health": {
+          "peticiones": 1469,
+          "p50_ms": 8.4,
+          "p95_ms": 24.9
+        },
+        "/api/public/niveles": {
+          "peticiones": 1471,
+          "p50_ms": 9.3,
+          "p95_ms": 36.0
+        },
+        "/api/public/horarios": {
+          "peticiones": 1471,
+          "p50_ms": 8.6,
+          "p95_ms": 35.2
+        },
+        "/api/public/clases-recientes": {
+          "peticiones": 1469,
+          "p50_ms": 9.4,
+          "p95_ms": 36.3
+        },
+        "/api/public/estadisticas": {
+          "peticiones": 1469,
+          "p50_ms": 9.7,
+          "p95_ms": 38.7
+        },
+        "/api/alumno/matriculas": {
+          "peticiones": 1469,
+          "p50_ms": 13.6,
+          "p95_ms": 44.8
+        },
+        "/api/alumno/clases": {
+          "peticiones": 1470,
+          "p50_ms": 16.4,
+          "p95_ms": 44.2
+        }
+      }
+    },
+    {
+      "usuarios": 25,
+      "duracion_s": 15.0,
+      "peticiones": 12692,
+      "rps": 843.9,
+      "p50_ms": 16.9,
+      "p95_ms": 85.5,
+      "p99_ms": 150.1,
+      "max_ms": 288.1,
+      "promedio_ms": 29.5,
+      "errores": 0,
+      "errores_pct": 0.0,
+      "por_ruta": {
+        "/api/public/health": {
+          "peticiones": 1808,
+          "p50_ms": 13.8,
+          "p95_ms": 49.8
+        },
+        "/api/public/niveles": {
+          "peticiones": 1810,
+          "p50_ms": 15.3,
+          "p95_ms": 72.5
+        },
+        "/api/public/horarios": {
+          "peticiones": 1814,
+          "p50_ms": 15.2,
+          "p95_ms": 74.5
+        },
+        "/api/public/clases-recientes": {
+          "peticiones": 1816,
+          "p50_ms": 15.5,
+          "p95_ms": 75.5
+        },
+        "/api/public/estadisticas": {
+          "peticiones": 1817,
+          "p50_ms": 15.9,
+          "p95_ms": 74.4
+        },
+        "/api/alumno/matriculas": {
+          "peticiones": 1817,
+          "p50_ms": 29.9,
+          "p95_ms": 144.1
+        },
+        "/api/alumno/clases": {
+          "peticiones": 1810,
+          "p50_ms": 30.6,
+          "p95_ms": 108.9
+        }
+      }
+    },
+    {
+      "usuarios": 50,
+      "duracion_s": 15.1,
+      "peticiones": 13681,
+      "rps": 908.6,
+      "p50_ms": 28.8,
+      "p95_ms": 182.1,
+      "p99_ms": 430.3,
+      "max_ms": 912.3,
+      "promedio_ms": 54.8,
+      "errores": 0,
+      "errores_pct": 0.0,
+      "por_ruta": {
+        "/api/public/health": {
+          "peticiones": 1945,
+          "p50_ms": 19.7,
+          "p95_ms": 81.9
+        },
+        "/api/public/niveles": {
+          "peticiones": 1949,
+          "p50_ms": 26.7,
+          "p95_ms": 112.6
+        },
+        "/api/public/horarios": {
+          "peticiones": 1953,
+          "p50_ms": 23.7,
+          "p95_ms": 108.9
+        },
+        "/api/public/clases-recientes": {
+          "peticiones": 1958,
+          "p50_ms": 24.9,
+          "p95_ms": 114.9
+        },
+        "/api/public/estadisticas": {
+          "peticiones": 1962,
+          "p50_ms": 25.1,
+          "p95_ms": 119.1
+        },
+        "/api/alumno/matriculas": {
+          "peticiones": 1966,
+          "p50_ms": 61.7,
+          "p95_ms": 402.8
+        },
+        "/api/alumno/clases": {
+          "peticiones": 1948,
+          "p50_ms": 58.3,
+          "p95_ms": 324.1
+        }
+      }
+    }
+  ]
+}

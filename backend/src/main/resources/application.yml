@@ -1,0 +1,55 @@
+# =====================================================================
+#  Configuración común. Los secretos se leen SIEMPRE de variables de entorno.
+#  Perfiles: dev (H2 en memoria, por defecto) y prod (PostgreSQL).
+# =====================================================================
+spring:
+  application:
+    name: matematica-sin-estres-api
+  profiles:
+    default: dev
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none          # el esquema lo controla Flyway (migraciones versionadas)
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    time-zone: America/Lima
+    default-property-inclusion: non_null
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+server:
+  port: ${PORT:8080}
+  shutdown: graceful            # termina las peticiones en curso antes de apagar (despliegues sin errores)
+  compression:                  # respuestas JSON más livianas (eficiencia de desempeño, ISO 25010)
+    enabled: true
+    mime-types: application/json
+    min-response-size: 1024
+  error:
+    include-stacktrace: never
+    include-message: never
+
+app:
+  # Commit desplegado: Render lo entrega en RENDER_GIT_COMMIT; en otro entorno se puede definir APP_COMMIT.
+  commit: ${RENDER_GIT_COMMIT:${APP_COMMIT:}}
+  jwt:
+    secret: ${JWT_SECRET:}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:60}
+    issuer: matematica-sin-estres
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+  seguridad:
+    max-intentos-fallidos: 5
+    minutos-bloqueo: 15
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    login-por-minuto: 10
+    registro-por-minuto: 5
+    solicitudes-por-minuto: 5
+
+logging:
+  level:
+    root: INFO
+    pe.matematicasinestres: INFO

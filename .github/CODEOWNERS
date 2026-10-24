@@ -1,0 +1,6 @@
+# Revisores obligatorios (rol de Líder Técnico en el CAB). Con la protección de la rama main,
+# ningún pull request se integra sin la aprobación de un responsable.
+*                                   @BryanDiaz23
+/backend/src/main/resources/db/     @BryanDiaz23
+/render.yaml                        @BryanDiaz23
+/.github/                           @BryanDiaz23

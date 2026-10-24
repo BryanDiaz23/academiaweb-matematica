@@ -1,0 +1,72 @@
+name: Control de cambios
+
+# Verifica que todo pull request hacia main cumpla el procedimiento de control de cambios
+# (docs/10-gestion-del-cambio.md): RFC asociado, tipo de cambio declarado y CHANGELOG actualizado.
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  rfc:
+    name: RFC y registro de cambios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validar el RFC del pull request
+        env:
+          CUERPO: ${{ github.event.pull_request.body }}
+          AUTOR: ${{ github.event.pull_request.user.login }}
+          RAMA: ${{ github.head_ref }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          ETIQUETAS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          set -euo pipefail
+          fallos=0
+          echo "### Control de cambios" >> "$GITHUB_STEP_SUMMARY"
+
+          # Dependabot: cambio estándar preaprobado (actualización de dependencias).
+          if [ "$AUTOR" = "dependabot[bot]" ] || [[ ",$ETIQUETAS," == *",cambio-estandar,"* ]]; then
+            echo "Cambio estándar preaprobado: solo se exige que el CI pase en verde." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          if echo "$CUERPO" | grep -Eiq '(cierra|closes|fixes|resuelve|refs?)[[:space:]]+#[0-9]+'; then
+            echo "- ✅ Referencia a un RFC (issue)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error::El PR debe referenciar el issue RFC (por ejemplo: 'Cierra #12')."
+            echo "- ❌ Falta la referencia al RFC" >> "$GITHUB_STEP_SUMMARY"; fallos=1
+          fi
+
+          if echo "$CUERPO" | grep -Eq '\- \[[xX]\] (Estándar|Normal|Emergencia)'; then
+            echo "- ✅ Tipo de cambio declarado" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error::Marca el tipo de cambio (Estándar, Normal o Emergencia) en la plantilla del PR."
+            echo "- ❌ Falta el tipo de cambio" >> "$GITHUB_STEP_SUMMARY"; fallos=1
+          fi
+
+          if echo "$CUERPO" | grep -Eq '\- \[[xX]\] Emergencia' && [[ "$RAMA" != hotfix/* ]]; then
+            echo "::error::Un cambio de emergencia debe salir de una rama hotfix/*."
+            fallos=1
+          fi
+
+          if git diff --name-only "$BASE" HEAD | grep -qx 'CHANGELOG.md'; then
+            echo "- ✅ CHANGELOG.md actualizado" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error::Actualiza CHANGELOG.md con el cambio (sección [Sin publicar] o la versión)."
+            echo "- ❌ CHANGELOG.md sin cambios" >> "$GITHUB_STEP_SUMMARY"; fallos=1
+          fi
+
+          if git diff --name-only "$BASE" HEAD | grep -q '^backend/src/main/resources/db/migration/'; then
+            echo "- ⚠️ El PR incluye una migración de base de datos: requiere aprobación del CAB y respaldo previo." >> "$GITHUB_STEP_SUMMARY"
+            if git diff "$BASE" HEAD -- backend/src/main/resources/db/migration/ | grep -Eiq '^\+.*(DROP[[:space:]]+(TABLE|COLUMN)|TRUNCATE)'; then
+              echo "::warning::La migración elimina datos (DROP/TRUNCATE): no es compatible con un rollback de la aplicación."
+            fi
+          fi
+          exit $fallos

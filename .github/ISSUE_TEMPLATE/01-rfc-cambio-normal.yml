@@ -1,0 +1,78 @@
+name: "RFC · Cambio normal"
+description: Solicitud de cambio que requiere evaluación y aprobación del Comité de Cambios (CAB).
+title: "[RFC] "
+labels: ["rfc", "cambio-normal", "estado:registrado"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Cambio normal**: modifica la aplicación, la base de datos, la infraestructura, la documentación o el cronograma
+        y no está en la lista de cambios estándar preaprobados. Debe aprobarlo el CAB antes de integrarse a `main`.
+  - type: dropdown
+    id: componente
+    attributes:
+      label: Componente afectado
+      options:
+        - Aplicación (front-end)
+        - Aplicación (back-end / API)
+        - Base de datos (migración Flyway)
+        - Infraestructura (Render, Docker, CI/CD)
+        - Documentación
+        - Cronograma / alcance del proyecto
+      multiple: true
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción del cambio
+      description: Qué se va a cambiar.
+    validations:
+      required: true
+  - type: textarea
+    id: justificacion
+    attributes:
+      label: Justificación
+      description: Por qué es necesario (requerimiento, incidente, observación del docente, mejora).
+    validations:
+      required: true
+  - type: textarea
+    id: impacto
+    attributes:
+      label: Análisis de impacto
+      description: Usuarios, módulos y servicios afectados; si habrá indisponibilidad.
+    validations:
+      required: true
+  - type: dropdown
+    id: riesgo
+    attributes:
+      label: Nivel de riesgo (probabilidad × impacto)
+      options: ["Bajo (1-2)", "Medio (3-4)", "Alto (6-9)"]
+    validations:
+      required: true
+  - type: textarea
+    id: pruebas
+    attributes:
+      label: Plan de pruebas
+      description: Pruebas automatizadas y manuales que validarán el cambio (IDs de casos).
+    validations:
+      required: true
+  - type: textarea
+    id: backout
+    attributes:
+      label: Plan de reversión (backout)
+      description: Condición de activación, pasos y tiempo estimado. Base en docs/10-gestion-del-cambio.md §6.
+    validations:
+      required: true
+  - type: input
+    id: ventana
+    attributes:
+      label: Ventana de despliegue propuesta
+      placeholder: "Domingo 23:00 – 01:00 (ventana de mantenimiento del SLA)"
+  - type: checkboxes
+    id: verificacion
+    attributes:
+      label: Verificación previa
+      options:
+        - label: El cambio de base de datos es compatible con la versión anterior (solo agrega, no borra columnas ni tablas).
+        - label: Se actualizará CHANGELOG.md y, si aplica, la documentación de docs/.
