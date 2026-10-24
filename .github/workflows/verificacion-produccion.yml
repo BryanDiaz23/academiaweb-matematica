@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ vars.PROD_API_URL != '' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Health check, versión y tiempo de respuesta
         env:
           API_URL: ${{ vars.PROD_API_URL }}
